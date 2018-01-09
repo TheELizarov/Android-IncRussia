@@ -8,10 +8,16 @@ import ru.incrussia.app.http.Api
  *    on 02.01.2018 0:38
  */
 class App: Application() {
+    companion object {
+        lateinit var instance: App
+        fun instance() = instance
+    }
+
     lateinit var api: Api
 
     override fun onCreate() {
         super.onCreate()
-        api = Api.Builder().build()
+        App.instance = this
+        api = Api.build()
     }
 }
