@@ -18,7 +18,7 @@ import ru.incrussia.app.model.Post
  *
  */
 interface Api {
-    @GET()
+    @GET("?")
     fun feed(@Query("paged") paged: Int,
              @Query("posts_per_page") postsPerPage: Int = 20,
              @Query("category") category: Int) : Observable<Post.Response>
@@ -27,7 +27,7 @@ interface Api {
         /**
          * Base URL, example https://incrussia.ru/journal/?paged=2&posts_per_page=20&category=2
          */
-        val URL = "https://incrussia.ru/journal/?";
+        val URL = "https://incrussia.ru/journal/";
 
         fun build(): Api {
             val logInterceptor = HttpLoggingInterceptor()
