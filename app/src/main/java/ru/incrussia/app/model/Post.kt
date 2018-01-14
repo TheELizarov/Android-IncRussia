@@ -29,13 +29,4 @@ data class Post(
         @SerializedName("center_picture") val centerPicture: Boolean,
         val old: Boolean,
         @SerializedName("detail_announce") val detailAnnounce: String?
-) {
-    class Request(val paged: Int,
-                  @SerializedName("posts_per_page") val postsPerPage: Int = 20,
-                  val category: Int = 2
-    )
-
-    class Response {
-        lateinit var posts: List<Post>;
-    }
-}
+)

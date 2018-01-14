@@ -10,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 import ru.incrussia.app.BuildConfig
-import ru.incrussia.app.model.Post
+import ru.incrussia.app.model.Feed
 
 /**
  * Created by Sergey Elizarov elizarov1988@gmail.com
@@ -21,7 +21,7 @@ interface Api {
     @GET("?")
     fun feed(@Query("paged") paged: Int,
              @Query("posts_per_page") postsPerPage: Int = 20,
-             @Query("category") category: Int) : Observable<Post.Response>
+             @Query("category") category: Int) : Observable<Feed>
 
     companion object {
         /**
@@ -41,7 +41,10 @@ interface Api {
                     .addInterceptor(logInterceptor)
                     .build()
 
-            val gson = GsonBuilder().setPrettyPrinting().create()
+            val gson = GsonBuilder()
+                    .registerTypeAdapter(Feed::class.java, Feed.FeedDeserializer())
+                    .setPrettyPrinting()
+                    .create()
             val gsonConverterFactory = GsonConverterFactory.create(gson)
 
             val retrofit = Retrofit.Builder()

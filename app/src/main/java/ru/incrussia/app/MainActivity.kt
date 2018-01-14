@@ -3,6 +3,9 @@ package ru.incrussia.app
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -30,10 +33,19 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
-        exampleApiRequest()
+        feed()
     }
 
-    fun exampleApiRequest() =
-        App.instance().api.feed(paged = 1, category = 2)
+    fun feed() {
+        App.instance()
+                .api
+                .feed(paged = 1, category = 2)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    Log.d("Russia Inc API feed():", it.posts.toString())
+                }
+    }
+
 
 }
